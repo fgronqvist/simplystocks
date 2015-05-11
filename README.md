@@ -1,2 +1,2 @@
 # simplystocks
-A simple stock management application
+A new simple stock management application
