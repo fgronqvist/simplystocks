@@ -24,6 +24,7 @@ public class Transaction {
      * @return the date
      */
     public Date getDate() {
+String testi = "A testi";
         return date;
     }
 
