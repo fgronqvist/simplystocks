@@ -1,6 +1,6 @@
 /*
  */
-package com.gronqvist.fredrik.simplystocks;
+package simplystocks.logic;
 
 import org.junit.After;
 import org.junit.AfterClass;
