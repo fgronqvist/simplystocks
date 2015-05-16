@@ -41,6 +41,7 @@ public class Stock {
     }
 
     /**
+     * The ticker cannot be empty or null.
      * @param ticker the ticker to set
      * @throws java.lang.Exception
      */
@@ -59,6 +60,7 @@ public class Stock {
     }
 
     /**
+     * The name cannot be empty or null.
      * @param name the name to set
      * @throws java.lang.Exception
      */
@@ -77,6 +79,7 @@ public class Stock {
     }
 
     /**
+     * The exchange cannot be empty or null.
      * @param exchange the exchange to set
      * @throws java.lang.Exception
      */
