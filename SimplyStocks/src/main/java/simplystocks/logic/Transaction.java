@@ -3,7 +3,9 @@
 package simplystocks.logic;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A specific transaction.
@@ -14,66 +16,142 @@ import java.util.Date;
  * 
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
-public class Transaction {
-    protected Date date;
-    protected Stock stock;
-    protected Integer stockAmount;
-    protected BigDecimal currencyAmount;
-
+abstract class Transaction {
+    private Date date;
+    private Stock stock;
+    private Integer stockAmount;
+    private BigDecimal currencyAmount;
+    private TRANSACTION_TYPES type;
+    
+    public enum TRANSACTION_TYPES {
+        /**
+         * The transaction is one where stocks are bought.
+         */
+        BUY, 
+        
+        /**
+         * The transaction is one where stocks are sold.
+         */
+        SELL
+    }
+      
     /**
-     * @return the date
+     * Constructor that checks if the type is
+     * a part of TRANSACTION_TYPES.
+     * 
+     * @throws AssertionError if type is incorrect.
+     */
+    public Transaction() throws AssertionError{       
+        init();
+        switch(this.type){
+            case BUY:
+                break;
+                
+            case SELL:
+                break;
+                
+            default:
+                throw new AssertionError(this.type.name());
+        }
+    }
+    
+    /**
+     * An init method.
+     * 
+     * This method has to be over-ridden in a concrete subclass. Use this
+     * method to set the TRANSACTION_TYPE as follows.
+     * 
+     * <pre>
+     * public void init(){
+     *  setTransactionType(TRANSACTION_TYPES.BUY);
+     * }
+     * </pre>
+     * 
+     */
+    public void init(){
+    }
+    
+    /**
+     * @return the transaction type
+     */
+    public TRANSACTION_TYPES getType(){
+        return type;
+    }
+    
+    /**
+     * Set the transaction type.
+     * @param newType to set
+     */
+    public void setTransactionType(TRANSACTION_TYPES newType){
+        type = newType;
+    }
+    
+    /**
+     * @return the transaction date
      */
     public Date getDate() {
-String testi = "A testi";
         return date;
     }
 
     /**
-     * @param date the date to set
+     * @param date set the transaction date
      */
     public void setDate(Date date) {
         this.date = date;
     }
 
     /**
-     * @return the stock
+     * @return the transaction stock
      */
     public Stock getStock() {
         return stock;
     }
 
     /**
-     * @param stock the stock to set
+     * @param stock set the transaction stock
      */
     public void setStock(Stock stock) {
         this.stock = stock;
     }
 
     /**
-     * @return the stockAmount
+     * @return the transaction stockAmount
      */
     public Integer getStockAmount() {
         return stockAmount;
     }
 
     /**
-     * @param stockAmount the stockAmount to set
+     * Only allows amounts greater than 1.
+     * @param stockAmount the amount of stocks
+     * @throws java.lang.Exception
      */
-    public void setStockAmount(Integer stockAmount) {
+    public void setStockAmount(Integer stockAmount) throws Exception {
+        if(stockAmount == null || stockAmount < 1){
+            throw new Exception("stockAmount cannot be null or <1");
+        }
         this.stockAmount = stockAmount;
     }
 
     /**
-     * @return the currencyAmount
+     * @return the transaction currencyAmount
      */
     public BigDecimal getCurrencyAmount() {
         return currencyAmount;
     }
 
     /**
-     * @param currencyAmount the currencyAmount to set
+     * @param currencyAmount the amount
+     * @throws java.lang.Exception
      */
-    public void setCurrencyAmount(BigDecimal currencyAmount) {
+    public void setCurrencyAmount(BigDecimal currencyAmount) throws Exception {
+        if(currencyAmount == null) {
+            throw new Exception("currencyAmount cannot be null");
+        }
+        if(currencyAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new Exception("currencyAmount cannot be zero or less");
+        }
+        
         this.currencyAmount = currencyAmount;
     }
     

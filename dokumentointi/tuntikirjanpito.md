@@ -6,3 +6,4 @@
 |13.5|20:20|20:35|Lisätty kuvaus toteutettavasta ohjelmasta|
 |16.5|18:50|20:10|Ohjelman suunnittelua, luokkakaavioita ja ensimmäisiä luokkia|
 |16.5|21:45|23:59|Luokkia ja testejä|
+|18.5|20:10|23:10|Luokkia ja testejä|
