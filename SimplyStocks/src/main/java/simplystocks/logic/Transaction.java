@@ -20,6 +20,7 @@ abstract class Transaction {
     private Date date;
     private Stock stock;
     private Integer stockAmount;
+    private String currency;
     private BigDecimal currencyAmount;
     private TRANSACTION_TYPES type;
     
@@ -131,6 +132,29 @@ abstract class Transaction {
             throw new Exception("stockAmount cannot be null or <1");
         }
         this.stockAmount = stockAmount;
+    }
+    
+    /**
+     * Currency cannot be null or empty.
+     * 
+     * The currency should be international abbreviations of currencies.
+     * @see http://en.wikipedia.org/wiki/ISO_4217
+     * 
+     * @param currency
+     * @throws Exception if currency is null or empty
+     */
+    public void setCurrency(String currency) throws Exception{
+        if(currency == null || currency.isEmpty()){
+            throw new Exception("currency cannot be null or empty");
+        }
+        this.currency = currency;
+    }
+    
+    /**
+     * @return the currency string
+     */
+    public String getCurrency(){
+        return this.currency;
     }
 
     /**

@@ -7,3 +7,4 @@
 |16.5|18:50|20:10|Ohjelman suunnittelua, luokkakaavioita ja ensimmäisiä luokkia|
 |16.5|21:45|23:59|Luokkia ja testejä|
 |18.5|20:10|23:10|Luokkia ja testejä|
+|19.5|18:00|22:30|Luokkia ja testejä|
