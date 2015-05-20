@@ -3,6 +3,7 @@
 package simplystocks.logic;
 
 import java.sql.SQLException;
+import simplystocks.helpers.ErrorHandler;
 
 /**
  *
@@ -10,28 +11,46 @@ import java.sql.SQLException;
  */
 public class Portfolio {
 
-    public boolean addTransaction(Transaction transaction) throws SQLException, Exception {
+    ErrorHandler errorHandler = null;
+    
+    public Portfolio(ErrorHandler errorHandler){
+        this.errorHandler = errorHandler;
+    }
+    
+    public ErrorHandler getErrorHandler(){
+        return this.errorHandler;
+    }
+    
+    public ErrorHandler addTransaction(Transaction transaction) throws SQLException, Exception {
         boolean result;
-        
-        if(transaction instanceof TransactionBuy){
-            result = checkTransactionBuy((TransactionBuy) transaction);
-        } else if (transaction instanceof TransactionSell){
-            result = checkTransactionSell((TransactionSell) transaction);
-        } else {
-            throw new Exception("unknown transactiontype.");
+                
+        switch(transaction.getType()) {
+            case BUY:
+                result = true;
+                break;
+            case SELL:
+                result = checkTransactionSell((TransactionSell) transaction);
+                break;
+            default:
+                throw new AssertionError(transaction.getType().name());            
         }
         
-        Database db = new Database();
-        return false;
+        if(result){
+            Database db = Database.getInstance();
+            db.addTransaction(transaction);
+        }
+                    
+        return errorHandler;
     }
-    
-    private boolean checkTransactionBuy(TransactionBuy transaction) {
-        // nothing to check for now
+        
+    public boolean checkTransactionSell(TransactionSell transaction) throws Exception {
+        Database db = Database.getInstance();
+        int stocksOwned = db.getAmountOfStockOwned(transaction.getStock());
+        if(stocksOwned < transaction.getStockAmount()){
+            errorHandler.addError(ErrorHandler.ERROR_CODES.VALIDATION_FAILED, 
+                    "Not enough stocks to sell");
+            return false;
+        }
         return true;
-    }
-    
-    private boolean checkTransactionSell(TransactionSell transaction) {
-        //@todo Chceck that we actually have enough stock to sell
-        return false;
     }
 }

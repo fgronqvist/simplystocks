@@ -2,9 +2,11 @@
  */
 package simplystocks.logic;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -18,10 +20,30 @@ import java.util.logging.Logger;
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
 public class Database {
+    /**
+     * Singleton instance of this class.
+     */
+    private static Database instance = null;    
+    
+    /**
+     * Connection instance.
+     */
     private Connection connection;
     
-    public Database() throws SQLException{
+    protected Database() throws SQLException{
         openConnection();
+    }
+    
+    /**
+     * Singleton getter.
+     * @return The Database singleton object
+     * @throws java.sql.SQLException if the connection fails
+     */
+    public static Database getInstance() throws SQLException{
+        if(instance == null){
+            instance = new Database();
+        }
+        return instance;
     }
     
     private void openConnection() throws SQLException{
@@ -32,6 +54,12 @@ public class Database {
     
     private void closeConnection() throws SQLException{
         connection.close();
+    }
+    
+    public void truncateTransactionTable() throws SQLException{
+        String sql = "TRUNCATE TABLE 'transaction'";
+        Statement stmt = connection.createStatement();
+        stmt.execute(sql);
     }
         
     public void createTransactionTable() throws SQLException{
@@ -87,7 +115,38 @@ public class Database {
         stmt.setString(3, transaction.getStock().getTicker());
         stmt.setInt(4, transaction.getStockAmount());
         stmt.setString(5, transaction.getCurrency());
-        stmt.setInt(6, transaction.getCurrencyAmount().intValueExact());
+        BigDecimal currencyAmount = 
+                transaction.getCurrencyAmount().setScale(2, BigDecimal.ROUND_HALF_UP);
+        stmt.setDouble(6, currencyAmount.doubleValue());
         return stmt.execute();        
+    }
+    
+    public int getAmountOfStockOwned(Stock stock) throws SQLException, Exception{
+        int buyCount = this.getStockAmountByType(stock, 
+                Transaction.TRANSACTION_TYPES.BUY);
+        int sellCount = this.getStockAmountByType(stock, 
+                Transaction.TRANSACTION_TYPES.SELL);
+        if(buyCount - sellCount < 0){
+            throw new Exception("stock amount less than zero?");
+        }
+        return (buyCount - sellCount);
+    }
+    
+    public int getStockAmountByType(Stock stock,
+            Transaction.TRANSACTION_TYPES type) throws SQLException {
+        // Get the amount of stock we have bought.
+        String sql = "SELECT SUM ([stock_amount]) as stock_amount "
+                + "FROM [transaction] "
+                + "WHERE [stock_ticker] = ? AND [transaction_type] = ?";
+
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, stock.getTicker());
+        stmt.setString(2, type.toString());
+        ResultSet result = stmt.executeQuery();
+        int amount = 0;
+        while(result.next()){
+            amount = result.getInt("stock_amount");        
+        }
+        return amount;
     }
 }
