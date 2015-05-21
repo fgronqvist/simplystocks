@@ -9,10 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class handles most of the database functions.
@@ -56,10 +53,18 @@ public class Database {
         connection.close();
     }
     
+    /**
+     * 
+     * @return boolean false if execution failed
+     * @throws SQLException 
+     */
     public void truncateTransactionTable() throws SQLException{
-        String sql = "TRUNCATE TABLE 'transaction'";
+        String sql = "DELETE FROM [transaction]";
         Statement stmt = connection.createStatement();
         stmt.execute(sql);
+        
+        sql = "VACUUM";
+        stmt.execute(sql);        
     }
         
     public void createTransactionTable() throws SQLException{

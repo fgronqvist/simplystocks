@@ -42,9 +42,8 @@ public class PortfolioTest {
     @After
     public void tearDown() {
     }
-
-    @Test
-    public void testAddTransactionBuy() throws Exception {
+    
+    public static TransactionBuy getTestTransactionBuy() throws Exception{
         Stock stock = new Stock("TestTicker", "TestName", "TestExchange");
         
         TransactionBuy transaction = new TransactionBuy();
@@ -54,10 +53,13 @@ public class PortfolioTest {
         transaction.setDate(new Date());
         transaction.setStock(stock);
         transaction.setStockAmount(100);
-        transaction.setTransactionType(Transaction.TRANSACTION_TYPES.BUY);
-        
+        return transaction;
+    }
+
+    @Test
+    public void testAddTransactionBuy() throws Exception {
+        TransactionBuy transaction = getTestTransactionBuy();
         ErrorHandler result = instance.addTransaction(transaction);
         assertFalse(result.hasErrors());
-    }
-    
+    }    
 }

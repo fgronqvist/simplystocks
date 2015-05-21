@@ -15,6 +15,7 @@ public class GenericErrorHandler implements ErrorHandler {
     @Override
     public void addError(ERROR_CODES code, String message) {
         errorCode = code;
+        errorMessage = message;
         errors = true;
     }
 

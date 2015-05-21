@@ -56,24 +56,42 @@ public class DatabaseTest {
     
     @Test
     public void testGetAmountOfStockOwned() throws Exception{
-        Stock stock = new Stock("TestTicker", "TestName", "TestExchange");
         Database db = Database.getInstance();
-        int result = db.getAmountOfStockOwned(stock);
+        db.truncateTransactionTable();
+        
+        TransactionBuy transaction = PortfolioTest.getTestTransactionBuy();
+        db.addTransaction(transaction);
+        
+        int result = db.getAmountOfStockOwned(transaction.getStock());
+        int expected = transaction.getStockAmount();
+        assertEquals(expected, result);
+    }
+    
+    @Test
+    public void testTruncateTableTransaction() throws SQLException, Exception{
+        TransactionBuy transaction = PortfolioTest.getTestTransactionBuy();        
+        Database db = Database.getInstance();
+        db.addTransaction(transaction);
+        
+        db.truncateTransactionTable();
+        
+        int result = db.getAmountOfStockOwned(transaction.getStock());        
         int expected = 0;
         assertEquals(expected, result);
     }
     
     @Test
     public void testGetStockAmountByBuyType() throws Exception{
-        Stock stock = new Stock("TestTicker", "TestName", "TestExchange");
         Database db = Database.getInstance();
-        int result = db.getStockAmountByType(stock, Transaction.TRANSACTION_TYPES.BUY);
-        int expected = 0;
-        assertEquals(expected, result);
-    }
-    
-    @Test
-    public void testTruncateTableTransaction(){
+        db.truncateTransactionTable();
         
+        TransactionBuy transaction = PortfolioTest.getTestTransactionBuy();
+        db.addTransaction(transaction);        
+        
+        int result = db.getStockAmountByType(transaction.getStock(), 
+                Transaction.TRANSACTION_TYPES.BUY);
+        int expected = transaction.getStockAmount();
+        
+        assertEquals(expected, result);
     }
 }

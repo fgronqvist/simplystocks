@@ -63,7 +63,7 @@ public class GenericErrorHandlerTest {
     @Test
     public void testGetErrorMessageWithNoError(){
         String result = instance.getErrorMessage();
-        String expected = "";
+        String expected = null;
         assertEquals(expected, result);
     }
 }

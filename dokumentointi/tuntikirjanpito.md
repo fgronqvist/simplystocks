@@ -9,3 +9,4 @@
 |18.5|20:10|23:10|Luokkia ja testejä|
 |19.5|18:00|22:30|Luokkia ja testejä|
 |20.5|18:40|23:15|Luokkia ja testejä|
+|21.5|20:20||Testien korjausta|
