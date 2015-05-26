@@ -48,14 +48,9 @@ public class Database {
             connection = DriverManager.getConnection("jdbc:sqlite:simplystocks.db");
         }
     }
-    
-    private void closeConnection() throws SQLException{
-        connection.close();
-    }
-    
+        
     /**
      * 
-     * @return boolean false if execution failed
      * @throws SQLException 
      */
     public void truncateTransactionTable() throws SQLException{

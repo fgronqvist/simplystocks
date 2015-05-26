@@ -39,7 +39,7 @@ public class Portfolio {
             Database db = Database.getInstance();
             db.addTransaction(transaction);
         }
-                    
+        
         return errorHandler;
     }
         

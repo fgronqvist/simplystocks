@@ -3,9 +3,7 @@
 package simplystocks.logic;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * A specific transaction.
@@ -42,17 +40,22 @@ abstract class Transaction {
      * 
      * @throws AssertionError if type is incorrect.
      */
-    public Transaction() throws AssertionError{       
+    public Transaction() throws AssertionError {       
         init();
-        switch(this.type){
-            case BUY:
-                break;
-                
-            case SELL:
-                break;
-                
-            default:
-                throw new AssertionError(this.type.name());
+        try {            
+            switch(this.type){
+                case BUY:
+                    break;
+
+                case SELL:
+                    break;
+
+                default:
+                    throw new AssertionError(this.type.name());
+            }
+        }
+        catch (NullPointerException e) {
+            throw new AssertionError("NULL Transaction.type value", e);
         }
     }
     
@@ -69,7 +72,7 @@ abstract class Transaction {
      * </pre>
      * 
      */
-    public void init(){
+    public void init() {        
     }
     
     /**
