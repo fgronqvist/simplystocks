@@ -12,4 +12,4 @@
 |21.5|20:20|21:30|Testien korjausta, kaavioiden päivitys sekä uusi PIT testi|
 |26.5|21:45|23:35|Testien laajentamista sekä uusi PIT testi|
 |27.5|18:15|19:30|GUIn aloitus|
-|27.5|20:25||GUIn aloitus|
+|27.5|20:25|23:25|GUIn aloitus|
