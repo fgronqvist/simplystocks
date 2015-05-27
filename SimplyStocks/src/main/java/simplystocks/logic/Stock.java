@@ -21,6 +21,7 @@ public class Stock {
     }
     
     /**
+     * Creates a Stock with the provided values.
      * 
      * @param ticker
      * @param name
