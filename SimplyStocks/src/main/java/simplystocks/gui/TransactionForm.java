@@ -4,6 +4,7 @@ package simplystocks.gui;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -221,18 +222,24 @@ public class TransactionForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        Portfolio portfolio = new Portfolio(new GenericErrorHandler());
-        Stock stock = null;
-        Transaction transaction = null;
-        
         try {
-            stock = this.getStock();
+            Portfolio portfolio = new Portfolio(new GenericErrorHandler());
+            Transaction transaction;
+            
             if (this.rdoBuy.isSelected()) {
                 transaction = new TransactionBuy();
             } else if (this.rdoSell.isSelected()){
                 transaction = new TransactionSell();                
             } else {
                 throw new Exception("No transaction type selected");
+            }
+
+            Stock stock;
+            try {
+                stock = this.getStock();
+            }
+            catch (Exception e) {
+                throw new Exception("Stock ticker, exchange and name must be set.");
             }
             
             transaction  = this.setTransactionData(transaction);
@@ -242,26 +249,30 @@ public class TransactionForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Transaction saved successfully.");
         }
         catch (Exception ex) {
-            Logger.getLogger(TransactionForm.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(rootPane, "An error occured. The "
-                    + "transaction was not saved.\n"
-                    + "Technical error message: " + ex.getMessage(), 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("Exception: "+ex.getMessage());
-            // @TODO we need to do some error displaying later on...
+            System.out.println(Arrays.toString(ex.getStackTrace()));
+            System.out.println(ex.toString());
+            this.showErrorDialog(ex.getMessage());
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    public void showErrorDialog(String message){
+        if(message.isEmpty()){
+            message = "An error occured. The transaction was not saved.§";
+        }
+        JOptionPane.showMessageDialog(rootPane, message, "Error", 
+                JOptionPane.ERROR_MESSAGE);
+    }
+    
     /**
      * 
      * @return Stock with the entered values
      * @throws Exception 
      */
     public Stock getStock() throws Exception{
-        Stock stock = new Stock(
-                    this.txtTicker.getSelectedItem().toString(),
-                    this.txtName.getSelectedItem().toString(),
-                    this.txtExchange.getSelectedItem().toString());
+        Stock stock = new Stock();
+        stock.setTicker(this.txtTicker.getSelectedItem().toString());
+        stock.setName(this.txtName.getSelectedItem().toString());
+        stock.setExchange(this.txtExchange.getSelectedItem().toString());
         return stock;
     }
     

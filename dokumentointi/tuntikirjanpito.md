@@ -15,3 +15,4 @@
 |27.5|20:25|23:25|GUIn aloitus|
 |28.5|18:25|19:05|GUIn jatkaminen|
 |28.5|19:45|21:45|GUIn jatkaminen|
+|28.5|22:15|23:35|GUIn jatkaminen|
