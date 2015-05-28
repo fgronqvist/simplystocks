@@ -7,7 +7,7 @@ package simplystocks.logic;
  * 
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
-public class TransactionBuy extends Transaction {
+public class TransactionBuy extends TransactionBase {
     @Override
     public void init() {
         setTransactionType(TRANSACTION_TYPES.BUY);

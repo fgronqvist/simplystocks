@@ -54,8 +54,8 @@ public class PortfolioTest {
         return transaction;
     }
     
-    public static Transaction setTestTransactionData(
-            Transaction transaction) throws Exception {
+    public static TransactionBase setTestTransactionData(
+            TransactionBase transaction) throws Exception {
         Stock stock = new Stock("TestTicker", "TestName", "TestExchange");                            
         transaction.setCurrency("EUR");
         transaction.setCurrencyAmount(

@@ -15,12 +15,12 @@ import static org.junit.Assert.*;
  * Test the transactions
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
-public class TransactionTest {
+public class TransactionBaseTest {
     
     public TransactionSell instanceSell;
     public TransactionBuy instanceBuy;
     
-    public TransactionTest() {
+    public TransactionBaseTest() {
     }
     
     @BeforeClass

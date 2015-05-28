@@ -125,9 +125,9 @@ public class Database {
     
     public int getAmountOfStockOwned(Stock stock) throws SQLException, Exception{
         int buyCount = this.getStockAmountByType(stock, 
-                Transaction.TRANSACTION_TYPES.BUY);
+                TransactionBase.TRANSACTION_TYPES.BUY);
         int sellCount = this.getStockAmountByType(stock, 
-                Transaction.TRANSACTION_TYPES.SELL);
+                TransactionBase.TRANSACTION_TYPES.SELL);
         if(buyCount - sellCount < 0){
             throw new Exception("stock amount less than zero?");
         }
@@ -135,7 +135,7 @@ public class Database {
     }
     
     public int getStockAmountByType(Stock stock,
-            Transaction.TRANSACTION_TYPES type) throws SQLException {
+            TransactionBase.TRANSACTION_TYPES type) throws SQLException {
         // Get the amount of stock we have bought.
         String sql = "SELECT SUM ([stock_amount]) as stock_amount "
                 + "FROM [transaction] "

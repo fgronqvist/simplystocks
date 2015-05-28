@@ -88,7 +88,7 @@ public class DatabaseTest {
         db.addTransaction(transaction);        
         
         int result = db.getStockAmountByType(transaction.getStock(), 
-                Transaction.TRANSACTION_TYPES.BUY);
+                TransactionBase.TRANSACTION_TYPES.BUY);
         int expected = transaction.getStockAmount();
         
         assertEquals(expected, result);

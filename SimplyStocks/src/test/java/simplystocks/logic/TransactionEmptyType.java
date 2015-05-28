@@ -3,11 +3,11 @@
 package simplystocks.logic;
 
 /**
- * A Transaction with a empty Transaction.TRANSACTION_TYPE.
+ * A TransactionBase with a empty TransactionBase.TRANSACTION_TYPE.
  * 
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
-public class TransactionEmptyType extends Transaction {
+public class TransactionEmptyType extends TransactionBase {
     @Override
     public void init (){
     }
