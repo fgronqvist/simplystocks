@@ -4,7 +4,9 @@ package simplystocks.gui;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +29,7 @@ public class TransactionForm extends javax.swing.JFrame {
      */
     public TransactionForm() {
         initComponents();
+        setPickerData();
     }
 
     /**
@@ -57,9 +60,12 @@ public class TransactionForm extends javax.swing.JFrame {
         rdoBuy = new javax.swing.JRadioButton();
         rdoSell = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        dateTransactionDate = new com.toedter.calendar.JDateChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Transaction details");
+        setAlwaysOnTop(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Transaction"));
 
@@ -114,6 +120,8 @@ public class TransactionForm extends javax.swing.JFrame {
 
         jLabel7.setText("Type");
 
+        jLabel8.setText("Date");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -121,7 +129,7 @@ public class TransactionForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(75, 75, 75)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -129,8 +137,7 @@ public class TransactionForm extends javax.swing.JFrame {
                                 .addComponent(btnSave)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnCancel))
-                            .addComponent(txtCurrency, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42))
+                            .addComponent(txtCurrency, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -138,20 +145,21 @@ public class TransactionForm extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
                         .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(rdoBuy)
                                 .addGap(18, 18, 18)
                                 .addComponent(rdoSell))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtExchange, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtTicker, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtStockAmount)
-                                .addComponent(txtCurrencyAmount)))))
-                .addContainerGap(48, Short.MAX_VALUE))
+                            .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtExchange, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTicker, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtStockAmount, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCurrencyAmount, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dateTransactionDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +169,11 @@ public class TransactionForm extends javax.swing.JFrame {
                     .addComponent(rdoBuy)
                     .addComponent(rdoSell)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(dateTransactionDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtTicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -189,7 +201,7 @@ public class TransactionForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnCancel))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,7 +221,7 @@ public class TransactionForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(410, 380));
+        setSize(new java.awt.Dimension(410, 430));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -218,9 +230,9 @@ public class TransactionForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTickerActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-
+    
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             Portfolio portfolio = new Portfolio(new GenericErrorHandler());
@@ -234,6 +246,10 @@ public class TransactionForm extends javax.swing.JFrame {
                 throw new Exception("No transaction type selected");
             }
 
+            if (dateTransactionDate.getDate() == null) {
+                throw new Exception("No date provided");
+            }
+                        
             Stock stock;
             try {
                 stock = this.getStock();
@@ -247,6 +263,7 @@ public class TransactionForm extends javax.swing.JFrame {
 
             portfolio.addTransaction(transaction);
             JOptionPane.showMessageDialog(rootPane, "Transaction saved successfully.");
+            dispose();
         }
         catch (Exception ex) {
             System.out.println(Arrays.toString(ex.getStackTrace()));
@@ -254,7 +271,7 @@ public class TransactionForm extends javax.swing.JFrame {
             this.showErrorDialog(ex.getMessage());
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
+    
     public void showErrorDialog(String message){
         if(message.isEmpty()){
             message = "An error occured. The transaction was not saved.§";
@@ -277,13 +294,20 @@ public class TransactionForm extends javax.swing.JFrame {
     }
     
     /**
+     * Formats the calendar date to "dd.MM.YYYY".
+     */
+    private void setPickerData(){
+        dateTransactionDate.setDateFormatString("dd.MM.YYYY");
+    }
+    
+    /**
      *
      * @param transaction
      * @return
      * @throws java.lang.Exception
      */
     public Transaction setTransactionData(Transaction transaction) throws Exception{        
-        transaction.setDate(new Date());
+        transaction.setDate(dateTransactionDate.getDate());
         transaction.setStockAmount(
                 Integer.parseInt(this.txtStockAmount.getText()));
         double curAmount = Double.parseDouble(this.txtCurrencyAmount.getText());
@@ -337,6 +361,7 @@ public class TransactionForm extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.ButtonGroup btnGrpTransactionType;
     private javax.swing.JButton btnSave;
+    private com.toedter.calendar.JDateChooser dateTransactionDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -344,6 +369,7 @@ public class TransactionForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton rdoBuy;
     private javax.swing.JRadioButton rdoSell;

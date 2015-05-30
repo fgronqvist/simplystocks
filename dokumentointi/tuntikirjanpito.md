@@ -16,3 +16,6 @@
 |28.5|18:25|19:05|GUIn jatkaminen|
 |28.5|19:45|21:45|GUIn jatkaminen|
 |28.5|22:15|23:35|GUIn jatkaminen|
+|30.5|14:50|17:05|Koodikatselmointia|
+|30.5|18:10|23:59|GUIn jatkaminen
+|31.5|00:01||GUIn jatkaminen
