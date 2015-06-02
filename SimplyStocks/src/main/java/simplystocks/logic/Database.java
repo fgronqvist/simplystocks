@@ -58,10 +58,7 @@ public class Database {
     public void truncateTransactionTable() throws SQLException{
         String sql = "DELETE FROM [transaction]";
         Statement stmt = connection.createStatement();
-        stmt.execute(sql);
-        
-        sql = "VACUUM";
-        stmt.execute(sql);        
+        stmt.execute(sql);         
     }
         
     public void createTransactionTable() throws SQLException{
