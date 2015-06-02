@@ -66,14 +66,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                          <EmptySpace min="75" pref="75" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="btnSave" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                                   <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtCurrency" min="-2" pref="134" max="-2" attributes="0"/>
+                              <Component id="txtCurrency" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -93,12 +93,12 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="rdoSell" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtName" alignment="1" max="32767" attributes="0"/>
-                              <Component id="txtExchange" alignment="1" max="32767" attributes="0"/>
                               <Component id="txtTicker" alignment="1" max="32767" attributes="0"/>
                               <Component id="txtStockAmount" alignment="1" max="32767" attributes="0"/>
                               <Component id="txtCurrencyAmount" alignment="1" max="32767" attributes="0"/>
                               <Component id="dateTransactionDate" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtExchange" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtName" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -170,12 +170,7 @@
           <Properties>
             <Property name="editable" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="selectedIndex" type="int" value="-1"/>
           </Properties>
@@ -208,39 +203,9 @@
             <Property name="text" type="java.lang.String" value="Currency"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="txtExchange">
-          <Properties>
-            <Property name="editable" type="boolean" value="true"/>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-            <Property name="selectedIndex" type="int" value="-1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="txtName">
-          <Properties>
-            <Property name="editable" type="boolean" value="true"/>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-            <Property name="selectedIndex" type="int" value="-1"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JTextField" name="txtStockAmount">
         </Component>
         <Component class="javax.swing.JTextField" name="txtCurrencyAmount">
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtCurrency">
         </Component>
         <Component class="javax.swing.JButton" name="btnSave">
           <Properties>
@@ -285,6 +250,23 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dateTransactionDate">
+        </Component>
+        <Component class="javax.swing.JComboBox" name="txtCurrency">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="EUR"/>
+                <StringItem index="1" value="USD"/>
+              </StringArray>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[134, 25]"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtExchange">
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtName">
         </Component>
       </SubComponents>
     </Container>

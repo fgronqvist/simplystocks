@@ -17,5 +17,12 @@
 |28.5|19:45|21:45|GUIn jatkaminen|
 |28.5|22:15|23:35|GUIn jatkaminen|
 |30.5|14:50|17:05|Koodikatselmointia|
-|30.5|18:10|23:59|GUIn jatkaminen
-|31.5|00:01|00:55|GUIn jatkaminen
+|30.5|18:10|23:59|GUIn jatkaminen|
+|31.5|00:01|00:55|GUIn jatkaminen|
+|1.6|21:20|22:35|GUIn jatkaminen|
+|2.6|18:00|18:30|GUIn jatkaminen|
+|2.6|19:00|19:50|GUIn jatkaminen|
+|2.6|19:50|20:00|Javadoc luokista|
+|2.6|20:00|21:30|Sekvenssikaavioita|
+|2.6|21:20|22:50|GUIn jatkaminen|
+

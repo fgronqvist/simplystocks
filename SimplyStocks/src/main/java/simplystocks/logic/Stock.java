@@ -69,7 +69,7 @@ public class Stock {
         if(name == null || name.isEmpty()){
             throw new Exception("name cannot be empty");
         }
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     /**

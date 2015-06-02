@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- *
+ * The interface for a transaction.
+ * 
+ * The transaction is basically buying or selling of stocks.
+ * 
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
 public interface Transaction {

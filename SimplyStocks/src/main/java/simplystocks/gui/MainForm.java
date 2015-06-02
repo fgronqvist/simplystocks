@@ -4,6 +4,9 @@ package simplystocks.gui;
 
 import java.awt.AWTEvent;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import simplystocks.helpers.GenericErrorHandler;
+import simplystocks.logic.Portfolio;
 
 /**
  *
@@ -74,15 +77,27 @@ public class MainForm extends javax.swing.JFrame {
 
         tblStocks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Ticker", "Stock count", "Purchase price", "Current value", "Transactions"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblStocks);
 
         jMenu1.setText("File");
@@ -146,6 +161,12 @@ public class MainForm extends javax.swing.JFrame {
             System.exit(0);
         }
     }
+    
+    private void loadTableData(){
+        Portfolio portfolio = new Portfolio(new GenericErrorHandler());
+        portfolio.setMainFormTableData(tblStocks.getModel());
+    }
+    
     /**
      * @param args the command line arguments
      */

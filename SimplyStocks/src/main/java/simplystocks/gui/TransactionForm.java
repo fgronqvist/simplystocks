@@ -4,14 +4,15 @@ package simplystocks.gui;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import simplystocks.helpers.GenericErrorHandler;
+import simplystocks.helpers.StockHandler;
 import simplystocks.logic.Portfolio;
 import simplystocks.logic.Stock;
 import simplystocks.logic.Transaction;
@@ -30,6 +31,7 @@ public class TransactionForm extends javax.swing.JFrame {
     public TransactionForm() {
         initComponents();
         setPickerData();
+        setStockTickers();
     }
 
     /**
@@ -50,11 +52,8 @@ public class TransactionForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtExchange = new javax.swing.JComboBox();
-        txtName = new javax.swing.JComboBox();
         txtStockAmount = new javax.swing.JTextField();
         txtCurrencyAmount = new javax.swing.JTextField();
-        txtCurrency = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         rdoBuy = new javax.swing.JRadioButton();
@@ -62,6 +61,9 @@ public class TransactionForm extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         dateTransactionDate = new com.toedter.calendar.JDateChooser();
+        txtCurrency = new javax.swing.JComboBox();
+        txtExchange = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Transaction details");
@@ -72,7 +74,6 @@ public class TransactionForm extends javax.swing.JFrame {
         jLabel1.setText("Ticker");
 
         txtTicker.setEditable(true);
-        txtTicker.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         txtTicker.setSelectedIndex(-1);
         txtTicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,14 +90,6 @@ public class TransactionForm extends javax.swing.JFrame {
         jLabel5.setText("Currency amount");
 
         jLabel6.setText("Currency");
-
-        txtExchange.setEditable(true);
-        txtExchange.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        txtExchange.setSelectedIndex(-1);
-
-        txtName.setEditable(true);
-        txtName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        txtName.setSelectedIndex(-1);
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +115,9 @@ public class TransactionForm extends javax.swing.JFrame {
 
         jLabel8.setText("Date");
 
+        txtCurrency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EUR", "USD" }));
+        txtCurrency.setMinimumSize(new java.awt.Dimension(134, 25));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,9 +131,9 @@ public class TransactionForm extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(38, 38, 38)
                                 .addComponent(btnCancel))
-                            .addComponent(txtCurrency, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtCurrency, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -153,12 +149,12 @@ public class TransactionForm extends javax.swing.JFrame {
                                 .addComponent(rdoBuy)
                                 .addGap(18, 18, 18)
                                 .addComponent(rdoSell))
-                            .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtExchange, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTicker, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtStockAmount, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtCurrencyAmount, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(dateTransactionDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(dateTransactionDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtExchange)
+                            .addComponent(txtName))))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -226,22 +222,47 @@ public class TransactionForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTickerActionPerformed
-        // TODO add your handling code here:
+        if (txtTicker.getSelectedIndex() > 0) {
+            try {
+                Stock stock = StockHandler.getInstance().getStockByTicker(
+                        txtTicker.getSelectedItem().toString());
+                txtExchange.setEnabled(false);
+                txtExchange.setText(stock.getExchange());
+                txtName.setEnabled(false);
+                txtName.setText(stock.getName());
+            }
+            catch (SQLException ex) {
+                String msg = "A database error occured! \n";
+                msg += ex.getMessage();
+                showErrorDialog(msg);
+            }
+            catch (Exception ex) {
+                String msg = "An unexpected erro occured!\n";
+                msg += ex.getMessage();
+                showErrorDialog(msg);
+            }
+        } else {
+            txtExchange.setEnabled(true);
+            txtExchange.setText("");
+            txtName.setEnabled(true);
+            txtName.setText("");
+        }
+
     }//GEN-LAST:event_txtTickerActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-    
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             Portfolio portfolio = new Portfolio(new GenericErrorHandler());
             Transaction transaction;
-            
+
             if (this.rdoBuy.isSelected()) {
                 transaction = new TransactionBuy();
-            } else if (this.rdoSell.isSelected()){
-                transaction = new TransactionSell();                
+            } else if (this.rdoSell.isSelected()) {
+                transaction = new TransactionSell();
             } else {
                 throw new Exception("No transaction type selected");
             }
@@ -249,7 +270,7 @@ public class TransactionForm extends javax.swing.JFrame {
             if (dateTransactionDate.getDate() == null) {
                 throw new Exception("No date provided");
             }
-                        
+
             Stock stock;
             try {
                 stock = this.getStock();
@@ -257,8 +278,8 @@ public class TransactionForm extends javax.swing.JFrame {
             catch (Exception e) {
                 throw new Exception("Stock ticker, exchange and name must be set.");
             }
-            
-            transaction  = this.setTransactionData(transaction);
+
+            transaction = this.setTransactionData(transaction);
             transaction.setStock(stock);
 
             portfolio.addTransaction(transaction);
@@ -271,42 +292,65 @@ public class TransactionForm extends javax.swing.JFrame {
             this.showErrorDialog(ex.getMessage());
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-    
-    public void showErrorDialog(String message){
-        if(message.isEmpty()){
+
+    public void showErrorDialog(String message) {
+        if (message.isEmpty()) {
             message = "An error occured. The transaction was not saved.§";
         }
-        JOptionPane.showMessageDialog(rootPane, message, "Error", 
+        JOptionPane.showMessageDialog(rootPane, message, "Error",
                 JOptionPane.ERROR_MESSAGE);
     }
-    
+
     /**
-     * 
+     *
      * @return Stock with the entered values
-     * @throws Exception 
+     * @throws Exception
      */
-    public Stock getStock() throws Exception{
+    public Stock getStock() throws Exception {
         Stock stock = new Stock();
         stock.setTicker(this.txtTicker.getSelectedItem().toString());
-        stock.setName(this.txtName.getSelectedItem().toString());
-        stock.setExchange(this.txtExchange.getSelectedItem().toString());
+        stock.setName(this.txtName.getText());
+        stock.setExchange(this.txtExchange.getText());
         return stock;
     }
-    
+
     /**
      * Formats the calendar date to "dd.MM.YYYY".
      */
-    private void setPickerData(){
+    private void setPickerData() {
         dateTransactionDate.setDateFormatString("dd.MM.YYYY");
     }
-    
+
+    /**
+     * Sets the tickers to the combobox.
+     */
+    private void setStockTickers() {      
+        try {
+            ArrayList<String> list = StockHandler.getInstance().getStockTickers();
+            txtTicker.addItem(new String());
+            for (String ticker : list) {
+                txtTicker.addItem(ticker);
+            }
+        }
+        catch (SQLException ex) {
+            String msg = "A database error occured!\n";
+            msg += ex.getMessage();
+            showErrorDialog(msg);
+        }
+        catch (Exception ex) {
+            String msg = "An unexpected error occured!\n";
+            msg += ex.getMessage();
+            showErrorDialog(msg);
+        }
+    }
+
     /**
      *
      * @param transaction
      * @return
      * @throws java.lang.Exception
      */
-    public Transaction setTransactionData(Transaction transaction) throws Exception{        
+    public Transaction setTransactionData(Transaction transaction) throws Exception {
         transaction.setDate(dateTransactionDate.getDate());
         transaction.setStockAmount(
                 Integer.parseInt(this.txtStockAmount.getText()));
@@ -314,10 +358,10 @@ public class TransactionForm extends javax.swing.JFrame {
         transaction.setCurrencyAmount(
                 BigDecimal.valueOf(curAmount).setScale(2, RoundingMode.HALF_UP)
         );
-        transaction.setCurrency(this.txtCurrency.getText());        
+        transaction.setCurrency(this.txtCurrency.getSelectedItem().toString());
         return transaction;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -373,10 +417,10 @@ public class TransactionForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton rdoBuy;
     private javax.swing.JRadioButton rdoSell;
-    private javax.swing.JTextField txtCurrency;
+    private javax.swing.JComboBox txtCurrency;
     private javax.swing.JTextField txtCurrencyAmount;
-    private javax.swing.JComboBox txtExchange;
-    private javax.swing.JComboBox txtName;
+    private javax.swing.JTextField txtExchange;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtStockAmount;
     private javax.swing.JComboBox txtTicker;
     // End of variables declaration//GEN-END:variables

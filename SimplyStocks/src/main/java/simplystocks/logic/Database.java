@@ -80,8 +80,8 @@ public class Database {
         stmt.close();
     }
     
-    public void createStocksTable() throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS 'stocks' "+
+    public void createStockTable() throws SQLException {
+        String sql = "CREATE TABLE IF NOT EXISTS 'stock' "+
                 "('ticker' TEXT NOT NULL, "+
                 "'name' TEXT NOT NULL, "+
                 "'exchange' TEXT NOT NULL)";
@@ -123,6 +123,27 @@ public class Database {
         return stmt.execute();        
     }
     
+    public boolean addStock(Stock stock){
+        boolean retValue = false;
+        
+        try {
+            ResultSet res = this.getStockByTicker(stock.getTicker());
+            if(!res.next()){
+                String sql = "INSERT INTO 'stock' "+
+                "('ticker','name','exchange') VALUES (?,?,?)";
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.setString(1, stock.getTicker().toUpperCase());
+                stmt.setString(2, stock.getName());
+                stmt.setString(3, stock.getExchange());
+                retValue = stmt.execute();
+            }
+        }
+        catch (SQLException ex) {
+            // No exception throwing for now
+        }
+        return retValue;
+    }
+        
     public int getAmountOfStockOwned(Stock stock) throws SQLException, Exception{
         int buyCount = this.getStockAmountByType(stock, 
                 TransactionBase.TRANSACTION_TYPES.BUY);
@@ -151,4 +172,25 @@ public class Database {
         }
         return amount;
     }
+    
+    public ResultSet getStockTickers() throws SQLException{
+        String sql = "SELECT distinct stock_ticker FROM [transaction]";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet result = stmt.executeQuery();
+        return result;
+    }
+    
+    public ResultSet getStockByTicker(String ticker) throws SQLException{
+        String sql = "SELECT * FROM stock WHERE ticker = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, ticker);
+        ResultSet result = stmt.executeQuery();
+        return result;
+    }
+    
+    /*
+    public ResultSet getMainTableTransactionData(){
+        
+    }
+    */
 }

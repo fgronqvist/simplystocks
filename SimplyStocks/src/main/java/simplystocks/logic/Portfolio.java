@@ -3,10 +3,15 @@
 package simplystocks.logic;
 
 import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import simplystocks.helpers.ErrorHandler;
 
 /**
- *
+ * The class handles all methods relating to the portfolio.
+ * 
+ * The class can be regarded as a simple controller.
+ * 
  * @author Fredrik Grönqvist <fredrik.groqvist+nb@gmail.com>
  */
 public class Portfolio {
@@ -38,9 +43,15 @@ public class Portfolio {
         if(result){
             Database db = Database.getInstance();
             db.addTransaction(transaction);
+            db.addStock(transaction.getStock());
         }
         
         return errorHandler;
+    }
+    
+    public void setMainFormTableData(TableModel tableModel){
+        //ResultSet res = Database.getInstance().
+        
     }
         
     public boolean checkTransactionSell(TransactionSell transaction) throws Exception {

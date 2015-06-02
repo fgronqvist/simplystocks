@@ -44,7 +44,7 @@ public class DatabaseTest {
     @Test
     public void testCreatingStocksTable() throws SQLException{
         Database db = Database.getInstance();
-        db.createStocksTable();
+        db.createStockTable();
     }
     
     @Test
