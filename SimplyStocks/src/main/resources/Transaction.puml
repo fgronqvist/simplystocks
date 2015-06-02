@@ -1,0 +1,35 @@
+@startuml
+hide footbox
+
+[-> "frm:TransactionForm": btnSaveActionPerformed()
+Activate "frm:TransactionForm"
+
+"frm:TransactionForm" -> "frm:TransactionForm": getStock()
+Activate "frm:TransactionForm"
+Create "stk:Stock"
+"frm:TransactionForm" ->> "stk:Stock": <<create>>
+"frm:TransactionForm" -> "stk:Stock": setTicker()
+"frm:TransactionForm" -> "stk:Stock": setExchange()
+"frm:TransactionForm" -> "stk:Stock": setName()
+Deactivate "frm:TransactionForm"
+
+Create "tra:Transaction"
+"frm:TransactionForm" ->> "tra:Transaction": <<create>>
+"frm:TransactionForm" -> "frm:TransactionForm": setTransactionData(tra:Transaction)
+Activate "frm:TransactionForm"
+"frm:TransactionForm" -> "tra:Transaction": setDate()
+"frm:TransactionForm" -> "tra:Transaction": setStockAmount()
+"frm:TransactionForm" -> "tra:Transaction": setCurrencyAmount()
+"frm:TransactionForm" -> "tra:Transaction": setCurrency()
+Deactivate "frm:TransactionForm"
+"frm:TransactionForm" -> "tra:Transaction": setStock(stk:Stock)
+
+Create "po:Portfolio"
+"frm:TransactionForm" ->> "po:Portfolio": <<create>>
+"frm:TransactionForm" -> "po:Portfolio": AddTransaction(tra:Transaction)
+Activate "po:Portfolio"
+Create "db:Database"
+"po:Portfolio" ->> "db:Database": getInstance()
+"po:Portfolio" -> "db:Database": addTransaction(tra:Transaction)
+
+@enduml

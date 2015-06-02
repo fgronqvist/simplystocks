@@ -1,0 +1,27 @@
+@startuml
+hide footbox
+
+[-> "frm:TransactionForm": txtTickerActionPerformed()
+Activate "frm:TransactionForm"
+
+Create "sth:StockHandler"
+"frm:TransactionForm" -> "sth:StockHandler":getInstance()
+"frm:TransactionForm" -> "sth:StockHandler":getStockByTicker(frm.txtTicker):stk:Stock
+Deactivate "frm:TransactionForm"
+
+Activate "sth:StockHandler"
+Create "stk:Stock"
+"sth:StockHandler" -> "stk:Stock":<<create>>
+Create "db:Database"
+"sth:StockHandler" -> "db:Database":getInstance()
+"sth:StockHandler" -> "db:Database":getStockByTicker(frm.txtTicker)
+"sth:StockHandler" -> "stk:Stock":setExchange(db.stockExchange)
+"sth:StockHandler" -> "stk:Stock":setTicker(db.stockTicker)
+"sth:StockHandler" -> "stk:Stock":setName(db.stockName)
+Deactivate "sth:StockHandler"
+
+Activate "frm:TransactionForm"
+"frm:TransactionForm" -> "frm:TransactionForm":txtExchange.setText(stk:getExchange())
+"frm:TransactionForm" -> "frm:TransactionForm":txtName.setText(stk:getName())
+
+@enduml
