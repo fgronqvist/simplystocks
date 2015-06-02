@@ -25,4 +25,5 @@
 |2.6|19:50|20:00|Javadoc luokista|
 |2.6|20:00|21:30|Sekvenssikaavioita|
 |2.6|21:20|22:50|GUIn jatkaminen|
+|2.6|22:50|23:59|Testien parantaminen|
 
