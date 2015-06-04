@@ -5,7 +5,6 @@ package simplystocks.helpers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import simplystocks.logic.Database;
 import simplystocks.logic.Stock;
 

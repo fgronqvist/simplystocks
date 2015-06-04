@@ -3,7 +3,6 @@
 package simplystocks.logic;
 
 import java.sql.SQLException;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import simplystocks.helpers.ErrorHandler;
 
