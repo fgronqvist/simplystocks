@@ -22,6 +22,8 @@ import simplystocks.logic.TransactionSell;
  */
 public class TransactionForm extends javax.swing.JFrame {
 
+    MainForm mainForm = null;
+    
     /**
      * Creates new form TransactionForm
      */
@@ -29,6 +31,14 @@ public class TransactionForm extends javax.swing.JFrame {
         initComponents();
         setPickerData();
         setStockTickers();
+    }
+    
+    /**
+     * Set the MainForm so we can interact with it from this form.
+     * @param form 
+     */
+    public void setMainForm(MainForm form){
+        mainForm = form;
     }
 
     /**
@@ -71,7 +81,6 @@ public class TransactionForm extends javax.swing.JFrame {
         jLabel1.setText("Ticker");
 
         txtTicker.setEditable(true);
-        txtTicker.setSelectedIndex(-1);
         txtTicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTickerActionPerformed(evt);
@@ -112,7 +121,7 @@ public class TransactionForm extends javax.swing.JFrame {
 
         jLabel8.setText("Date");
 
-        txtCurrency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EUR", "USD" }));
+        txtCurrency.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EUR" }));
         txtCurrency.setMinimumSize(new java.awt.Dimension(134, 25));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -281,6 +290,8 @@ public class TransactionForm extends javax.swing.JFrame {
 
             portfolio.addTransaction(transaction);
             JOptionPane.showMessageDialog(rootPane, "Transaction saved successfully.");
+            mainForm.loadSumData();
+            mainForm.loadTableData();
             dispose();
         }
         catch (Exception ex) {

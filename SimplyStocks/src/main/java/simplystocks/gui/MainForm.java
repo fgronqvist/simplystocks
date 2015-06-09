@@ -216,6 +216,7 @@ public class MainForm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TransactionForm tf = new TransactionForm();
         tf.setVisible(true);
+        tf.setMainForm(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -238,7 +239,7 @@ public class MainForm extends javax.swing.JFrame {
         }
     }
 
-    private void loadSumData() {
+    public void loadSumData() {
         Portfolio portfolio = new Portfolio(new GenericErrorHandler());
         try {
             txtPurchacePrice.setText(
@@ -261,13 +262,11 @@ public class MainForm extends javax.swing.JFrame {
         }
     }
     
-    private void loadTableData() {
+    public void loadTableData() {
         Portfolio portfolio = new Portfolio(new GenericErrorHandler());
         try {            
             tblStocks.setModel(
-                    portfolio.setMainFormTableData(
-                            (DefaultTableModel) tblStocks.getModel()
-                    )
+                    portfolio.setMainFormTableData((DefaultTableModel) tblStocks.getModel())
             );
         }
         catch (Exception e) {

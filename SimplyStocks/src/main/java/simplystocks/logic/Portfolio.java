@@ -66,8 +66,12 @@ public class Portfolio {
      * @return tableModel with the data set
      * @throws SQLException 
      */
-    public TableModel setMainFormTableData(DefaultTableModel tableModel) throws SQLException {
+    public DefaultTableModel setMainFormTableData(DefaultTableModel tableModel) throws SQLException {
         ResultSet res = Database.getInstance().getMainTableTransactionData();
+        for(int i=0;i<tableModel.getRowCount();i++){
+            tableModel.removeRow(i);
+        }
+        
         while (res.next()) {
             if (res.getInt("stock_count") > 0) {
                 tableModel.addRow(new Object[]{
