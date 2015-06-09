@@ -1,0 +1,49 @@
+@startuml
+hide footbox
+
+[-> "gui:MainForm":MainForm()
+Activate "gui:MainForm"
+"gui:MainForm"-> "gui:MainForm":initComponents()
+"gui:MainForm"-> "gui:MainForm":loadSumData()
+Activate "gui:MainForm"
+
+Create "pf:Portfolio"
+"gui:MainForm" ->> "pf:Portfolio":<<create>>
+Activate "pf:Portfolio"
+"gui:MainForm" -> "pf:Portfolio":getPortfolioPurchasePrice()
+
+Create "db:Database"
+"pf:Portfolio" -> "db:Database":getInstance()
+"pf:Portfolio" -> "db:Database":getPortfolioPurchacePrice()
+"pf:Portfolio" --> "gui:MainForm":txtPurchasePrice.setText()
+
+"gui:MainForm" -> "pf:Portfolio":getPortfolioCurrentValue()
+"pf:Portfolio" -> "db:Database":getInstance()
+"pf:Portfolio" -> "db:Database":getPortfolioCurrentValue()
+"pf:Portfolio" --> "gui:MainForm":txtCurrentValue.setText()
+
+"gui:MainForm" -> "pf:Portfolio":getPortfolioStockAmount()
+"pf:Portfolio" -> "db:Database":getInstance()
+"pf:Portfolio" -> "db:Database":getPortfolioStockAmount()
+"pf:Portfolio" --> "gui:MainForm":txtStockCount.setText()
+
+"gui:MainForm" -> "pf:Portfolio":getPortfolioStockCount()
+"pf:Portfolio" -> "db:Database":getInstance()
+"pf:Portfolio" -> "db:Database":getMainTableTransactionData()
+"pf:Portfolio" --> "gui:MainForm":txtStocks.setText()
+Destroy "pf:Portfolio"
+Deactivate "gui:MainForm"
+
+"gui:MainForm" -> "gui:MainForm":loadTableData()
+Activate "gui:MainForm"
+Create "pf:Portfolio"
+"gui:MainForm" ->> "pf:Portfolio":<<create>>
+
+Activate "pf:Portfolio"
+"gui:MainForm" -> "pf:Portfolio":setMainFormTableData()
+"pf:Portfolio" -> "db:Database":getInstance()
+"pf:Portfolio" -> "db:Database":getMainTableTransactionData()
+"pf:Portfolio" -> "gui:MainForm":tblStocks.setModel()
+Deactivate "gui:MainForm"
+
+@enduml
