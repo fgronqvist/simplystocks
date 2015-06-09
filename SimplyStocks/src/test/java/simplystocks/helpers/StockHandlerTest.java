@@ -69,4 +69,20 @@ public class StockHandlerTest {
         assertEquals(expected, instance.getStockTickers());
     }
     
+    @Test
+    public void testGetStockByTickersData() throws SQLException, Exception{
+        Database db = Database.getInstance();
+        db.truncateTransactionTable();
+        db.addTestTransactionData();
+        Stock stock = instance.getStockByTicker("TESTTICKER");
+        assertTrue(stock.getTicker().equals("TESTTICKER"));
+    }
+    
+    @Test
+    public void testGetInstance(){
+        StockHandler st = StockHandler.getInstance();
+        StockHandler stb = StockHandler.getInstance();        
+        assertSame(st, stb);
+    }
+        
 }

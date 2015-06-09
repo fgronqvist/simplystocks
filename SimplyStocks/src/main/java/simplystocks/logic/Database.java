@@ -85,6 +85,12 @@ public class Database {
                 ;
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(sql);
+        
+        sql = "INSERT INTO 'stock' "
+                + "('ticker', 'name', 'exchange') VALUES "
+                + "('TESTTICKER', 'Test Inc', 'NYSEARCA')";
+        stmt.executeUpdate(sql);
+        
         stmt.close();
     }
 
