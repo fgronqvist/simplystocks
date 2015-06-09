@@ -25,6 +25,11 @@ public class StockHandler {
         
     }
     
+    /**
+     * A singleton implementation.
+     * 
+     * @return this
+     */
     public static StockHandler getInstance(){
         if(instance == null){
             instance = new StockHandler();
@@ -32,6 +37,14 @@ public class StockHandler {
         return instance;
     }
     
+    /**
+     * Returns a list of stock tickers.
+     * 
+     * This is usually used by the GUI to display ticker lists.
+     * 
+     * @return an ArrayList of ticker strings
+     * @throws SQLException 
+     */
     public ArrayList<String> getStockTickers() throws SQLException{
         Database db = Database.getInstance();
         ResultSet result = db.getStockTickers();
@@ -42,6 +55,14 @@ public class StockHandler {
         return sResult;
     } 
     
+    /**
+     * Returns a stock by its ticker.
+     *
+     * @param ticker of the stock to be retrieved
+     * @return Stock by the ticker
+     * @throws SQLException
+     * @throws Exception 
+     */
     public Stock getStockByTicker(String ticker) throws SQLException, Exception{
         Database db = Database.getInstance();
         ResultSet result = db.getStockByTicker(ticker);

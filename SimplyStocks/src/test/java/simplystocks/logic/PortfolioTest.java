@@ -3,7 +3,10 @@
 package simplystocks.logic;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,6 +43,11 @@ public class PortfolioTest {
     
     @After
     public void tearDown() {
+    }
+    
+    public void setupTestData() throws SQLException{        
+        Database.getInstance().truncateTransactionTable();
+        Database.getInstance().addTestTransactionData();
     }
     
     public static TransactionBuy getTestTransactionBuy() throws Exception{
@@ -109,4 +117,44 @@ public class PortfolioTest {
         ErrorHandler errorHandler = instance.getErrorHandler();
         assertTrue(errorHandler.hasErrors());
     }
+    
+    @Test
+    public void testMainFormTableData() throws SQLException{
+        setupTestData();
+        TableModel model = new DefaultTableModel();        
+        DefaultTableModel model2 = 
+                (DefaultTableModel) instance.setMainFormTableData(
+                        (DefaultTableModel) model
+                );
+        
+        assertTrue(model2.getRowCount() > 0);
+    }
+    
+    @Test
+    public void testPortfolioPurchasePrice() throws SQLException{
+        setupTestData();        
+        int res = instance.getPortfolioPurchasePrice();        
+        assertTrue(res > 0);
+    }
+    
+    @Test
+    public void testPortfolioCurrentValue() throws SQLException{
+        setupTestData();        
+        int res = instance.getPortfolioCurrentValue();        
+        assertTrue(res == 0);
+    }
+    
+    @Test
+    public void testPortfolioStockAmount() throws SQLException{
+        setupTestData();        
+        int res = instance.getPortfolioStockAmount();        
+        assertTrue(res > 0);
+    }
+    
+    @Test
+    public void testPortfolioStockCount() throws SQLException{
+        setupTestData();        
+        int res = instance.getPortfolioStockCount();        
+        assertTrue(res > 0);
+    }    
 }
