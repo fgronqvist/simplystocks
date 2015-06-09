@@ -3,8 +3,12 @@
 package simplystocks.gui;
 
 import java.awt.AWTEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import simplystocks.helpers.GenericErrorHandler;
 import simplystocks.logic.Portfolio;
 
@@ -19,6 +23,8 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        loadSumData();
+        loadTableData();
     }
 
     /**
@@ -32,6 +38,14 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtPurchacePrice = new javax.swing.JTextField();
+        txtCurrentValue = new javax.swing.JTextField();
+        txtStockCount = new javax.swing.JTextField();
+        txtStocks = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStocks = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -56,25 +70,82 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Purchase price:");
+
+        jLabel2.setText("Current value:");
+
+        jLabel3.setText("Stock count:");
+
+        jLabel4.setText("Stocks:");
+
+        txtPurchacePrice.setEditable(false);
+
+        txtCurrentValue.setEditable(false);
+        txtCurrentValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCurrentValueActionPerformed(evt);
+            }
+        });
+
+        txtStockCount.setEditable(false);
+
+        txtStocks.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtPurchacePrice)
+                            .addComponent(txtCurrentValue)
+                            .addComponent(txtStockCount)
+                            .addComponent(txtStocks, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jButton1)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtPurchacePrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtCurrentValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtStockCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtStocks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Stocks"));
 
+        tblStocks.setAutoCreateRowSorter(true);
         tblStocks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -98,6 +169,7 @@ public class MainForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblStocks.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(tblStocks);
 
         jMenu1.setText("File");
@@ -133,7 +205,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -147,26 +219,70 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        shutDown();        
+        shutDown();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         shutDown();
     }//GEN-LAST:event_formWindowClosing
 
-    private void shutDown(){
+    private void txtCurrentValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentValueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCurrentValueActionPerformed
+
+    private void shutDown() {
         int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you "
                 + "want to exit the program?", "Exit program confirmation", JOptionPane.YES_NO_OPTION);
         if (confirmed == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
-    
-    private void loadTableData(){
+
+    private void loadSumData() {
         Portfolio portfolio = new Portfolio(new GenericErrorHandler());
-        portfolio.setMainFormTableData(tblStocks.getModel());
+        try {
+            txtPurchacePrice.setText(
+                    String.valueOf(portfolio.getPortfolioPurchasePrice())
+            );
+            txtCurrentValue.setText(
+                    String.valueOf(portfolio.getPortfolioCurrentValue())
+            );
+            txtStockCount.setText(
+                    String.valueOf(portfolio.getPortfolioStockAmount())
+            );
+            txtStocks.setText(
+                    String.valueOf(portfolio.getPortfolioStockCount())
+            );
+        }
+        catch (SQLException ex) {
+            String msg = "Unable to set portfolio values.\n"
+                    + ex.getMessage();
+            showErrorDialog(msg);
+        }
     }
     
+    private void loadTableData() {
+        Portfolio portfolio = new Portfolio(new GenericErrorHandler());
+        try {            
+            tblStocks.setModel(
+                    portfolio.setMainFormTableData(
+                            (DefaultTableModel) tblStocks.getModel()
+                    )
+            );
+        }
+        catch (Exception e) {
+            showErrorDialog(e.getMessage());
+        }
+    }
+
+    public void showErrorDialog(String message) {
+        if (message.isEmpty()) {
+            message = "An undefined error occured.";
+        }
+        JOptionPane.showMessageDialog(rootPane, message, "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+        
     /**
      * @param args the command line arguments
      */
@@ -208,6 +324,10 @@ public class MainForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -215,5 +335,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblStocks;
+    private javax.swing.JTextField txtCurrentValue;
+    private javax.swing.JTextField txtPurchacePrice;
+    private javax.swing.JTextField txtStockCount;
+    private javax.swing.JTextField txtStocks;
     // End of variables declaration//GEN-END:variables
 }

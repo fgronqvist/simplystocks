@@ -7,9 +7,6 @@ import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import simplystocks.helpers.GenericErrorHandler;
 import simplystocks.helpers.StockHandler;
@@ -295,7 +292,7 @@ public class TransactionForm extends javax.swing.JFrame {
 
     public void showErrorDialog(String message) {
         if (message.isEmpty()) {
-            message = "An error occured. The transaction was not saved.§";
+            message = "An undefined error occured.";
         }
         JOptionPane.showMessageDialog(rootPane, message, "Error",
                 JOptionPane.ERROR_MESSAGE);
@@ -315,10 +312,13 @@ public class TransactionForm extends javax.swing.JFrame {
     }
 
     /**
+     * BROKEN for the moment.
+     * 
      * Formats the calendar date to "dd.MM.YYYY".
      */
     private void setPickerData() {
-        dateTransactionDate.setDateFormatString("dd.MM.YYYY");
+        // The date does not work for the moment.
+        //dateTransactionDate.setDateFormatString("dd.MM.YYYY");
     }
 
     /**

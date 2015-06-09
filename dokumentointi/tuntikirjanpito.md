@@ -26,4 +26,6 @@
 |2.6|20:00|21:30|Sekvenssikaavioita|
 |2.6|21:20|22:50|GUIn jatkaminen|
 |2.6|22:50|23:59|Testien parantaminen|
+|9.6|18:50|21:00|GUIn jatkaminen|
+|9.6|21:00||Testien parantaminen|
 
