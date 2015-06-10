@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import simplystocks.helpers.ErrorHandler;
 import simplystocks.helpers.GenericErrorHandler;
 import simplystocks.helpers.StockHandler;
 import simplystocks.logic.Portfolio;
@@ -288,11 +289,17 @@ public class TransactionForm extends javax.swing.JFrame {
             transaction = this.setTransactionData(transaction);
             transaction.setStock(stock);
 
-            portfolio.addTransaction(transaction);
-            JOptionPane.showMessageDialog(rootPane, "Transaction saved successfully.");
-            mainForm.loadSumData();
-            mainForm.loadTableData();
-            dispose();
+            ErrorHandler errHandler = portfolio.addTransaction(transaction);
+            if(errHandler.hasErrors()){
+                String msg = "Transaction failed!\n"
+                        + errHandler.getErrorMessage();
+                showErrorDialog(msg);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Transaction saved successfully.");
+                mainForm.loadSumData();
+                mainForm.loadTableData();
+                dispose();                
+            }
         }
         catch (Exception ex) {
             System.out.println(Arrays.toString(ex.getStackTrace()));

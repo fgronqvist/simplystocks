@@ -27,5 +27,6 @@
 |2.6|21:20|22:50|GUIn jatkaminen|
 |2.6|22:50|23:59|Testien parantaminen|
 |9.6|18:50|21:00|GUIn jatkaminen|
-|9.6|21:00||Testien parantaminen|
+|9.6|21:00|23:59|Testien parantaminen|
+|10.6|21:00|21:30|Myynti tapahtuman bugin korjaaminen|
 
