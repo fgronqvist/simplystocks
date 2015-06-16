@@ -136,14 +136,7 @@ public class PortfolioTest {
         int res = instance.getPortfolioPurchasePrice();        
         assertTrue(res > 0);
     }
-    
-    @Test
-    public void testPortfolioCurrentValue() throws SQLException{
-        setupTestData();        
-        int res = instance.getPortfolioCurrentValue();        
-        assertTrue(res == 0);
-    }
-    
+        
     @Test
     public void testPortfolioStockAmount() throws SQLException{
         setupTestData();        
