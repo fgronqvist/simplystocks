@@ -29,6 +29,12 @@
 	<version>1.4</version>
         <type>jar</type>
     </dependency>
+    <dependency>
+	<groupId>com.googlecode.json-simple</groupId>
+	<artifactId>json-simple</artifactId>
+	<version>1.1</version>
+        <type>jar</type>
+    </dependency>
 </dependencies>
 
 <build>
@@ -55,6 +61,26 @@
                         <param>simplystocks.logic.*</param>
                     </targetTests>
                 </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.2</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <mainClass>simplystocks.gui.MainForm</mainClass>
+                            </transformer>
+                        </transformers>
+                    </configuration>
+                </execution>
+            </executions>
         </plugin>
     </plugins>
 </build>
