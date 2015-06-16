@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import simplystocks.helpers.ErrorHandler;
+import simplystocks.helpers.StockHandler;
 
 /**
  * The class handles all methods relating to the portfolio.
@@ -66,7 +67,8 @@ public class Portfolio {
      * @return tableModel with the data set
      * @throws SQLException 
      */
-    public DefaultTableModel setMainFormTableData(DefaultTableModel tableModel) throws SQLException {
+    public DefaultTableModel setMainFormTableData(DefaultTableModel tableModel) 
+            throws SQLException {
         ResultSet res = Database.getInstance().getMainTableTransactionData();
         for(int i=0;i<tableModel.getRowCount();i++){
             tableModel.removeRow(i);
@@ -74,11 +76,19 @@ public class Portfolio {
         
         while (res.next()) {
             if (res.getInt("stock_count") > 0) {
+                int currentPrice = Database.getInstance().getStockCurrentPrice(
+                        res.getString("stock_ticker"));
+                
+                Integer resCurrentPrice = 0;
+                if(currentPrice > 0){
+                    resCurrentPrice = (currentPrice * res.getInt("stock_count"));
+                }
+                
                 tableModel.addRow(new Object[]{
                     res.getString("stock_ticker"),
                     res.getInt("stock_count"),
                     res.getDouble("currency_sum"),
-                    0,
+                    resCurrentPrice,
                     res.getInt("transaction_count")
                 });
             }
@@ -109,7 +119,7 @@ public class Portfolio {
      * @return the current value for the portfolio.
      * @throws SQLException 
      */
-    public int getPortfolioCurrentValue() throws SQLException {
+    public int getPortfolioCurrentValue() throws SQLException, Exception {
         ResultSet res = Database.getInstance().getPortfolioCurrentValue();
         int sum = 0;
         while (res.next()) {
