@@ -29,4 +29,7 @@
 |9.6|18:50|21:00|GUIn jatkaminen|
 |9.6|21:00|23:59|Testien parantaminen|
 |10.6|21:00|21:30|Myynti tapahtuman bugin korjaaminen|
-
+|11.6|18:30|22:45|Osakkeen hinnan hakeminen netistä|
+|15.6|22:00|23:59|Osakkeen hinnan hakeminen netistä|
+|16.6|00:01|00:45|Osakkeen hinnan hakeminen netistä|
+|16.6|20:10|23:00 |Lopullisen palautuksen kasaaminen ja pushaaminen|
